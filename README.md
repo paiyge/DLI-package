@@ -9,12 +9,12 @@ DLI: https://en.wikipedia.org/wiki/Daily_light_integral
 4.	Proposed design: 2-3 paragraphs describing in detail the modules, classes, and functions you will need to implement to provide the package’s intended functionality. Describe any external libraries you may need to use, and what aspects of the implementation will be your team’s work. 
   - This will be a 3 part package, each making up a module: data wrangling, calculations, visualization. 
    -  Data Wrangling: taking PAR data and making it pretty
-    - Classes: User input dates as class object
-    - Functions: scraping data from web source, user uploading data from local, formatting data sets into proper types
+      -  Classes: User input dates as class object
+       - Functions: scraping data from web source, user uploading data from local, formatting data sets into proper types
    - Calculations: Going from raw PAR data to DLI
-    - Functions: Daily PAR total(micromol), PPFD(micromol/m^2 * sec), DLI(mol/m^2 * day)
+      - Functions: Daily PAR total(micromol), PPFD(micromol/m^2 * sec), DLI(mol/m^2 * day)
    - Visualization: Use Plotly to make interactive graphs of DLI
-    - Functions: one graph mapping it out
+      - Functions: one graph mapping it out
 5. Potential challenges: Data wrangling from websites and the proper formatting of Date(times) I anticipate to be the most challenging. Most wetaher data bases I have seen do not have PAR recorded or if they do it is behind several 'clicks' (subpages I suppose) and/or needs a download. Unsure at the moment on how to come at and handle it. 
 
 Questions for Professor:
