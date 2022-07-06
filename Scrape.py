@@ -1,50 +1,52 @@
 import pandas as pd
 import datetime
+import numpy as np
+from dateutil.relativedelta import relativedelta
 
 """
 #user enters date range
 f_date=input("From: mm/dd/yyyy: ").split("/")
 print(f_date)
-f_month=int(f_date[0])
-print(f_month)
-f_day=int(f_date[1])
-print(f_day)
-f_year=int(f_date[2])
-print(f_year)
+f_m=int(f_date[0])
+print(f_m)
+f_d=int(f_date[1])
+print(f_d)
+f_y=int(f_date[2])
+print(f_y)
 
 
 t_date=input("To: mm/dd/yyyy: ").split("/")
 print(t_date)
-t_month=int(t_date[0])
-print(t_month)
-t_day=int(t_date[1])
-print(t_day)
-t_year=int(t_date[2])
-print(t_year)
+t_m=int(t_date[0])
+print(t_m)
+t_d=int(t_date[1])
+print(t_d)
+t_y=int(t_date[2])
+print(t_y)
 """
 
 #testing block
-f_day=int(15)
-f_month=int(4)
-f_year=int(2010)
+f_d=int(15)
+f_m=int(4)
+f_y=int(2010)
 
-t_day=int(15)
-t_month=int(5)
-t_year=int(2010)
+t_d=int(15)
+t_m=int(6)
+t_y=int(2010)
 #
 
-#Checks entered month value
+
+#Checks / corrects entered month value
 def check_month(m):
     if m >12 or m<1:
         print("From month: input not valid")
     elif len(str(m)) ==1:
         m='0'+str(m)
-        
     else:
         pass
-    return m
+    return str(m)
 
-#Checks entered year value
+#Checks / corrects entered year value
 c_year=int(datetime.date.today().strftime("%Y"))
 def check_year(y):
     if len(str(y))==2:
@@ -56,15 +58,23 @@ def check_year(y):
         print("data only available from "+str(2000)+" to "+str(c_year))
     else:
         pass
-    return y
+    return str(y)
 
-f_month=check_month(f_month)
-f_year=check_year(f_year)
 
-t_month=check_month(t_month)
-t_year=check_year(t_year)
+f_date=datetime.datetime(f_y,f_m,f_d)
+t_date=datetime.datetime(t_y,t_m,t_d)
 
-url='http://pubdata.mlml.calstate.edu/mlml_last/weather/'+str(f_year)+"-"+str(f_month)+".csv"
-print(url)
-df=pd.read_csv(url)
-print(df)
+def d_strip(x):
+    return datetime.datetime.strptime(x, '%Y-%m-%d %H:%M:%S')
+dfs=[]
+while f_date<=t_date:
+    print(f_date)
+    f_date += relativedelta(months=1)
+    y=str(d_strip(str(f_date)).year)
+    m=str(d_strip(str(f_date)).month-1)
+    year=check_year(int(y))
+    month=check_month(int(m))
+    dfs.append(pd.read_csv('http://pubdata.mlml.calstate.edu/mlml_last/weather/'+year+"-"+month+".csv"))
+
+comp_df = pd.concat(dfs, ignore_index=True)
+comp_df.to_csv("/Users/USERNAME/Downloads/comp_data.csv")
