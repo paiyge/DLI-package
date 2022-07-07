@@ -3,11 +3,23 @@ import datetime
 import numpy as np
 from dateutil.relativedelta import relativedelta
 
-#Checks / corrects entered month value
+#Checks / corrects entered values
+def check_day(d):
+    try:
+        if d>31 or d<1:
+            print("day input not valid")
+        elif len(str(d))==1:
+            d='0'+str(d)
+        else:
+            pass
+        return str(m)
+    except:
+        print("day input not valid")
+        
 def check_month(m):
     try:
         if m >12 or m<1:
-            print("From month: input not valid")
+            print("input not valid")
         elif len(str(m)) ==1:
             m='0'+str(m)
         else:
@@ -15,7 +27,7 @@ def check_month(m):
         return str(m)
 
     except:
-        print("invalid  month imput")
+        print("month input not valid")
     
 #Checks / corrects entered year value
 c_year=int(datetime.date.today().strftime("%Y"))
@@ -32,7 +44,8 @@ def check_year(y):
             pass
         return str(y)
     except:
-        print("invalid year imput")
+        print("year input not valid")
+
 """
 #user enters date range
 
@@ -41,6 +54,7 @@ f_m=int(f_date[0])
 f_d=int(f_date[1])
 f_y=int(f_date[2])
 
+check_day(f_d)
 check_month(f_m)
 check_year(f_y)
 
@@ -49,15 +63,16 @@ t_m=int(t_date[0])
 t_d=int(t_date[1])
 t_y=int(t_date[2])
 
+check_day(t_d)
 check_month(t_m)
 check_year(t_y)
 
 """
-f_d=int(15)
-f_m=int(6)
+f_d=int(30)
+f_m=int(5)
 f_y=int(2010)
 
-t_d=int(15)
+t_d=int(17)
 t_m=int(8)
 t_y=int(2010)
 
@@ -67,20 +82,23 @@ t_date=datetime.datetime(t_y,t_m,t_d)
 def d_strip(x):
     return datetime.datetime.strptime(x, '%Y-%m-%d %H:%M:%S')
 dfs=[]
+print("compiling in process, please wait a moment.")
 while f_date<=t_date:
-    print(f_date)
     f_date += relativedelta(months=1)
     y=str(d_strip(str(f_date)).year)
     m=str(d_strip(str(f_date)).month-1)
     year=check_year(int(y))
-    print(year)
     month=check_month(int(m))
-    print(month)
     try:
         dfs.append(pd.read_csv('http://pubdata.mlml.calstate.edu/mlml_last/weather/'+year+"-"+month+".csv"))
     except:
         pass
     
-print(dfs) 
-#comp_df = pd.concat(dfs, ignore_index=True)
-#comp_df.to_csv("/Users/marinwitherspoon/Downloads/comp_data.csv")
+c_df = pd.concat(dfs, ignore_index=True)
+
+c_df['pst_time']=pd.to_datetime(c_df['pst_time'])
+c_df[(c_df['pst_time']>=f_date)&(c_df['pst_time']<=t_date)]
+print (c_df)
+c_df.to_csv("/Users/USERNAME/Downloads/comp_data.csv")
+
+print("Done! Check your downloads folder for the csv file.")
