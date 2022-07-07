@@ -3,39 +3,6 @@ import datetime
 import numpy as np
 from dateutil.relativedelta import relativedelta
 
-"""
-#user enters date range
-f_date=input("From: mm/dd/yyyy: ").split("/")
-print(f_date)
-f_m=int(f_date[0])
-print(f_m)
-f_d=int(f_date[1])
-print(f_d)
-f_y=int(f_date[2])
-print(f_y)
-
-
-t_date=input("To: mm/dd/yyyy: ").split("/")
-print(t_date)
-t_m=int(t_date[0])
-print(t_m)
-t_d=int(t_date[1])
-print(t_d)
-t_y=int(t_date[2])
-print(t_y)
-"""
-
-#testing block
-f_d=int(15)
-f_m=int(4)
-f_y=int(2010)
-
-t_d=int(15)
-t_m=int(6)
-t_y=int(2010)
-#
-
-
 #Checks / corrects entered month value
 def check_month(m):
     if m >12 or m<1:
@@ -59,7 +26,32 @@ def check_year(y):
     else:
         pass
     return str(y)
+"""
+#user enters date range
 
+f_date=input("From: mm/dd/yyyy: ").split("/")
+f_m=int(f_date[0])
+f_d=int(f_date[1])
+f_y=int(f_date[2])
+
+check_month(f_m)
+check_year(f_y)
+
+t_date=input("To: mm/dd/yyyy: ").split("/")
+t_m=int(t_date[0])
+t_d=int(t_date[1])
+t_y=int(t_date[2])
+
+check_month(t_m)
+check_year(t_y)
+"""
+f_d=int(15)
+f_m=int(6)
+f_y=int(2010)
+
+t_d=int(15)
+t_m=int(8)
+t_y=int(2010)
 
 f_date=datetime.datetime(f_y,f_m,f_d)
 t_date=datetime.datetime(t_y,t_m,t_d)
@@ -73,8 +65,14 @@ while f_date<=t_date:
     y=str(d_strip(str(f_date)).year)
     m=str(d_strip(str(f_date)).month-1)
     year=check_year(int(y))
+    print(year)
     month=check_month(int(m))
-    dfs.append(pd.read_csv('http://pubdata.mlml.calstate.edu/mlml_last/weather/'+year+"-"+month+".csv"))
- 
-comp_df = pd.concat(dfs, ignore_index=True)
-comp_df.to_csv("/Users/USERNAME/Downloads/comp_data.csv")
+    print(month)
+    try:
+        dfs.append(pd.read_csv('http://pubdata.mlml.calstate.edu/mlml_last/weather/'+year+"-"+month+".csv"))
+    except:
+        pass
+    
+print(dfs) 
+#comp_df = pd.concat(dfs, ignore_index=True)
+#comp_df.to_csv("/Users/marinwitherspoon/Downloads/comp_data.csv")
