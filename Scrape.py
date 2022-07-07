@@ -5,27 +5,34 @@ from dateutil.relativedelta import relativedelta
 
 #Checks / corrects entered month value
 def check_month(m):
-    if m >12 or m<1:
-        print("From month: input not valid")
-    elif len(str(m)) ==1:
-        m='0'+str(m)
-    else:
-        pass
-    return str(m)
+    try:
+        if m >12 or m<1:
+            print("From month: input not valid")
+        elif len(str(m)) ==1:
+            m='0'+str(m)
+        else:
+            pass
+        return str(m)
 
+    except:
+        print("invalid  month imput")
+    
 #Checks / corrects entered year value
 c_year=int(datetime.date.today().strftime("%Y"))
 def check_year(y):
-    if len(str(y))==2:
-        if int(y)>int(str(c_year)[-2:]):
-            y='19'+str(y)
+    try:
+        if len(str(y))==2:
+            if int(y)>int(str(c_year)[-2:]):
+                y='19'+str(y)
+            else:
+                y='20'+str(y)
+        elif int(y)>c_year or int(y)<int(2000):
+            print("data only available from "+str(2000)+" to "+str(c_year))
         else:
-            y='20'+str(y)
-    elif int(y)>c_year or int(y)<int(2000):
-        print("data only available from "+str(2000)+" to "+str(c_year))
-    else:
-        pass
-    return str(y)
+            pass
+        return str(y)
+    except:
+        print("invalid year imput")
 """
 #user enters date range
 
@@ -44,6 +51,7 @@ t_y=int(t_date[2])
 
 check_month(t_m)
 check_year(t_y)
+
 """
 f_d=int(15)
 f_m=int(6)
