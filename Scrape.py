@@ -75,6 +75,6 @@ while f_date<=t_date:
     year=check_year(int(y))
     month=check_month(int(m))
     dfs.append(pd.read_csv('http://pubdata.mlml.calstate.edu/mlml_last/weather/'+year+"-"+month+".csv"))
-
+ 
 comp_df = pd.concat(dfs, ignore_index=True)
 comp_df.to_csv("/Users/USERNAME/Downloads/comp_data.csv")
