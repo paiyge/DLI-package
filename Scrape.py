@@ -3,7 +3,11 @@ import datetime
 import numpy as np
 from dateutil.relativedelta import relativedelta
 
-#Checks / corrects entered values
+#try on pc
+#remove export to csv
+#work on pathname
+
+#Checks / corrects entered day values
 def check_day(d):
     try:
         if d>31 or d<1:
@@ -15,7 +19,8 @@ def check_day(d):
         return str(m)
     except:
         print("day input not valid")
-        
+ 
+#Checks / corrects entered month value
 def check_month(m):
     try:
         if m >12 or m<1:
@@ -68,13 +73,15 @@ check_month(t_m)
 check_year(t_y)
 
 """
-f_d=int(30)
+#Testing block
+f_d=int(4)
 f_m=int(5)
 f_y=int(2010)
 
 t_d=int(17)
-t_m=int(8)
+t_m=int(10)
 t_y=int(2010)
+#
 
 f_date=datetime.datetime(f_y,f_m,f_d)
 t_date=datetime.datetime(t_y,t_m,t_d)
@@ -93,12 +100,10 @@ while f_date<=t_date:
         dfs.append(pd.read_csv('http://pubdata.mlml.calstate.edu/mlml_last/weather/'+year+"-"+month+".csv"))
     except:
         pass
-    
+
 c_df = pd.concat(dfs, ignore_index=True)
 
 c_df['pst_time']=pd.to_datetime(c_df['pst_time'])
 c_df[(c_df['pst_time']>=f_date)&(c_df['pst_time']<=t_date)]
-print (c_df)
-c_df.to_csv("/Users/USERNAME/Downloads/comp_data.csv")
 
 print("Done! Check your downloads folder for the csv file.")
