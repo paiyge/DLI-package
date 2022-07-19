@@ -3,11 +3,6 @@ import datetime
 import numpy as np
 from dateutil.relativedelta import relativedelta
 
-#try on pc
-#remove export to csv
-#work on pathname
-#WORK ON Filter
-
 #Checks / corrects entered day values
 def check_day(d):
     try:
@@ -84,14 +79,17 @@ t_m=int(10)
 t_y=int(2010)
 #
 
+#standardizes data time format
 f_date=datetime.datetime(f_y,f_m,f_d)
 t_date=datetime.datetime(t_y,t_m,t_d)
-
 def d_strip(x):
     return datetime.datetime.strptime(x, '%Y-%m-%d %H:%M:%S')
+
 dfs=[]
 print("compiling in process, please wait a moment.")
+#Iterates through links and converts to pandas data frame.
 while f_date<=t_date:
+    #iterate count up by month
     f_date += relativedelta(months=1)
     y=str(d_strip(str(f_date)).year)
     m=str(d_strip(str(f_date)).month-1)
@@ -99,16 +97,17 @@ while f_date<=t_date:
     month=check_month(int(m))
     try:
         dfs.append(pd.read_csv('http://pubdata.mlml.calstate.edu/mlml_last/weather/'+year+"-"+month+".csv"))
-    except:
+    except: #if data is missing pass
         pass
-#EDIT:
+#converts f_date and t_time back to original.    
 f_date=datetime.datetime(f_y,f_m,f_d)
 t_date=datetime.datetime(t_y,t_m,t_d)
-#
-c_df = pd.concat(dfs, ignore_index=True)
 
+#compiles all pulled csv files
+c_df = pd.concat(dfs, ignore_index=True)
+#converts column to datetime
 c_df['pst_time']=pd.to_datetime(c_df['pst_time'])
-#BELOW IS LINE 108 for me. It is supposed to filter by day.
+#filters data frame by day
 c_df[(c_df['pst_time']>=f_date)&(c_df['pst_time']<=t_date)]
 
 print("Done!:")
