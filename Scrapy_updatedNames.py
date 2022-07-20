@@ -107,7 +107,7 @@ df = pd.concat(dfs, ignore_index=True)
 #converts column to datetime
 df['psto_time']=pd.to_datetime(df['psto_time'])
 #filters data frame by day
-df[(df['psto_time']>=from_date)&(df['psto_time']<=to_date)]
+df[(df['pst_time']>=from_date)&(df['pst_time']<=to_date)]
 
 print("Done!:")
 print(df)
