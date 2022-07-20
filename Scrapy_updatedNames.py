@@ -105,7 +105,7 @@ to_date=datetime.datetime(to_y,to_m,to_d)
 #compiles all pulled csv files
 df = pd.concat(dfs, ignore_index=True)
 #converts column to datetime
-df['psto_time']=pd.to_datetime(df['psto_time'])
+df['pst_time']=pd.to_datetime(df['pst_time'])
 #filters data frame by day
 df[(df['pst_time']>=from_date)&(df['pst_time']<=to_date)]
 
