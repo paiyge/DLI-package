@@ -5,6 +5,7 @@
 - create a main file for execution
 - make readme for repo
 - write the project report
+- convert scrapy to class
 
 
 
