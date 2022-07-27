@@ -7,6 +7,14 @@
 - write the project report
 - convert scrapy to class
 
+Timeline: 
+
+7/29 (Friday) Calculate.py  
+8/3 (Wed) Test.py 
+8/5 (Friday) visualization.py 
+8/9 (Tuesday) Project Report 
+8/10 (Wed) double check everything  
+Due 8/11 - lay back and relax 
 
 
 # DS-5010-Project
