@@ -38,7 +38,7 @@ def check_year(year):
                 year='19'+str(year)
             else:
                 year='20'+str(year)
-        elif int(year)>current_year or int(y)<int(2000):
+        elif int(year)>current_year or int(year)<int(2000):
             print("data only available from "+str(2000)+" to "+str(current_year))
         else:
             pass
