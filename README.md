@@ -1,3 +1,13 @@
+# TO DO
+
+- calculate DLI
+- create a visulation .rmd
+- create a main file for execution
+- make readme for repo
+- write the project report
+
+
+
 # DS-5010-Project
 Final package python project for DS 5010
 
