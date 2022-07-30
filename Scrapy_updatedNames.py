@@ -35,31 +35,35 @@ class Sun_expo:
         #standardizes data time format
         from_date=datetime.datetime(from_y,from_m,from_d)
         to_date=datetime.datetime(to_y,to_m,to_d)
+        
+        oldest_data=datetime.datetime(1,1,2000)
+        if from_date < oldest_date or to_date < oldest_date:
+            print("data is only available from ", oldest_data," to present.")
+        else:
+            dfs=[]
+            print("compiling data between ",from_date," - ",to_date,", please wait a moment.")
+            #Iterates through links and converts to pandas data frame.
+            while from_date<=to_date:
+                #iterate count up by month
+                from_date += relativedelta(months=1)
+                y=str(datetime.datetime.strptime(str(from_date), '%Y-%m-%d %H:%M:%S').year)
+                m=str(datetime.datetime.strptime(str(from_date), '%Y-%m-%d %H:%M:%S').month-1)
+                year=str(y)
+                month=str(m)
+                try:
+                    dfs.append(pd.read_csv('http://pubdata.mlml.calstate.edu/mlml_last/weather/'+year+"-"+month+".csv"))
+                except: #if data is missing pass
+                    pass
+            #converts from_date and to_time back to original.    
+            from_date=datetime.datetime(from_y,from_m,from_d)
+            to_date=datetime.datetime(to_y,to_m,to_d)
 
-        dfs=[]
-        print("compiling in process, please wait a moment.")
-        #Iterates through links and converts to pandas data frame.
-        while from_date<=to_date:
-            #iterate count up by month
-            from_date += relativedelta(months=1)
-            y=str(datetime.datetime.strptime(str(from_date), '%Y-%m-%d %H:%M:%S').year)
-            m=str(datetime.datetime.strptime(str(from_date), '%Y-%m-%d %H:%M:%S').month-1)
-            year=str(y)
-            month=str(m)
-            try:
-                dfs.append(pd.read_csv('http://pubdata.mlml.calstate.edu/mlml_last/weather/'+year+"-"+month+".csv"))
-            except: #if data is missing pass
-                pass
-        #converts from_date and to_time back to original.    
-        from_date=datetime.datetime(from_y,from_m,from_d)
-        to_date=datetime.datetime(to_y,to_m,to_d)
+            #compiles all pulled csv files
+            df = pd.concat(dfs, ignore_index=True)
+            #converts column to datetime
+            df['pst_time']=pd.to_datetime(df['pst_time'])
+            #filters data frame by day
+            df[(df['pst_time']>=from_date)&(df['pst_time']<=to_date)]
 
-        #compiles all pulled csv files
-        df = pd.concat(dfs, ignore_index=True)
-        #converts column to datetime
-        df['pst_time']=pd.to_datetime(df['pst_time'])
-        #filters data frame by day
-        df[(df['pst_time']>=from_date)&(df['pst_time']<=to_date)]
-
-        print("Done!")
-        return df
+            print("Done!")
+            return df
