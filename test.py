@@ -2,7 +2,7 @@
 exec(open('./Scrapy_updatedNames.py').read())
 
 s=Sun_expo()
-s.data_range(4,17,2010,10,17,2010)
+s.data_range(4,5,2010,10,17,2010)
 """
 
 frm=input("Enter the earliest date you want data from (MM/DD/YYYY): ").split("/")
