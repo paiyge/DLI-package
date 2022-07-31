@@ -46,7 +46,7 @@ class Sun_expo:
             while from_date<=to_date:
                 #iterate count up by month
                 from_date += relativedelta(months=1)
-                y=str(datetime.date(from_date).year)
+                y=str(from_date.year)
                 m=str(datetime.date(from_date).month-1)
                 year=str(y)
                 month=str(m)
