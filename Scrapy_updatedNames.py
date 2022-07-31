@@ -33,11 +33,11 @@ class Sun_expo:
         """
 
         #standardizes data time format
-        from_date=datetime.datetime(from_y,from_m,from_d)
-        to_date=datetime.datetime(to_y,to_m,to_d)
+        from_date=datetime.date(from_y,from_m,from_d)
+        to_date=datetime.date(to_y,to_m,to_d)
         
-        oldest_data=datetime.datetime(int(11),int(5),int(2000))
-        if from_date < oldest_date or to_date < oldest_date:
+        oldest_data=datetime.date(2000,11,1)
+        if from_date < oldest_data or to_date > datetime.today():
             print("data is only available from ", oldest_data," to present.")
         else:
             dfs=[]
