@@ -37,7 +37,7 @@ class Sun_expo:
         to_date=datetime.date(to_y,to_m,to_d)
         
         oldest_data=datetime.date(2000,11,1)
-        if from_date < oldest_data or to_date > datetime.today():
+        if from_date < oldest_data or to_date > datetime.date.today():
             print("data is only available from ", oldest_data," to present.")
         else:
             dfs=[]
