@@ -25,14 +25,14 @@ def calculate_ppfd(par_df):
     #ppfd_df = pd.DataFrame("")
     ppfd_df = pd.DataFrame(df.groupby(['Date'])['PAR'].mean())
     #pd.DataFrame({"Date": df.groupby(by="Date")})
-    print(ppfd_df)
+    # print(ppfd_df)
     return  calculate_dli(ppfd_df)
 
 
 def calculate_dli(ppfd_df):
     # Mutiply ppfd * 0.0036 * 24 #0.0864
     ppfd_df['DLI'] = ppfd_df['PAR'] * 0.0036 * 24
-    print(ppfd_df)
+    # print(ppfd_df)
     return ppfd_df
 
 
