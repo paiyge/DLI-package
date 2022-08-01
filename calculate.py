@@ -1,15 +1,15 @@
 import pandas as pd
-
-import scrape
+from Scrapy_updatedNames import *
 import pipe
 
-def create_df():
+
+def create_df(from_m:int, from_d:int, from_y:int, to_m:int, to_d:int, to_y:int):
     '''
 
     :return: par_df
     '''
-    df = scrape.df
-
+    data = Sun_expo()
+    df = data.data_range(from_m, from_d, from_y, to_m, to_d, to_y)
     par_df = df[['pst_time', 'sr_1']].copy()
     par_df = par_df.dropna()
     par_df = par_df.rename(columns={'pst_time': 'DateTime', 'sr_1': 'PAR'})
@@ -29,6 +29,7 @@ def calculate_ppfd(par_df):
     print(ppfd_df)
     return  calculate_dli(ppfd_df)
 
+
 def calculate_dli(ppfd_df):
     # Mutiply ppfd * 0.0036 * 24 #0.0864
     ppfd_df['DLI'] = ppfd_df['PAR'] * 0.0036 * 24
@@ -37,4 +38,4 @@ def calculate_dli(ppfd_df):
 
 
 if __name__ == "__main__":
-    calculate_ppfd(create_df())
+    calculate_ppfd(create_df(4,5,2010,10,17,2010))
