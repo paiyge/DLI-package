@@ -41,7 +41,7 @@ class Sun_expo:
             print("data is only available from ", oldest_data," to present.")
         else:
             dfs=[]
-            print("compiling data between ",from_date," - ",to_date,", please wait a moment.")
+            print("compiling data between",from_date,"-",to_date,", please wait a moment.")
             #Iterates through links and converts to pandas data frame.
             while from_date<=to_date:
                 #iterate count up by month
