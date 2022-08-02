@@ -21,11 +21,16 @@ def calculate_ppfd(par_df):
     '''
     df = par_df.copy()
     df['Date'] = pd.to_datetime(df['DateTime']).dt.date
-    #ppfd = df.groupby(['Date'])['PAR'].mean()
-    #ppfd_df = pd.DataFrame("")
-    ppfd_df = pd.DataFrame(df.groupby(['Date'])['PAR'].mean())
-    #pd.DataFrame({"Date": df.groupby(by="Date")})
-    # print(ppfd_df)
+
+    #convert date to unix time to average the data
+    df['UnixTime'] = pd.to_datetime(df['DateTime']).astype(int) / 10**9
+
+    #create one dataframe by merging date/time and PAR
+    ppfd_df = pd.DataFrame(df.groupby(['Date'])['UnixTime'].mean())
+    ppfd_df['Date'] = pd.to_datetime(ppfd_df['UnixTime'], unit='s')
+    par = pd.DataFrame(df.groupby(['Date'])['PAR'].mean())
+
+    ppfd_df = ppfd_df.join(par)
     return  calculate_dli(ppfd_df)
 
 
@@ -37,5 +42,8 @@ def calculate_dli(ppfd_df):
 
 
 if __name__ == "__main__":
-    ppfd_df = calculate_ppfd(create_df(4,5,2010,10,17,2010))
-    dli = calculate_dli(ppfd_df)
+    par_df = create_df(4,5,2010,10,17,2010)
+    # print(par_df)
+    ppfd_df = calculate_ppfd(par_df)
+    # ppfd_df.to_csv('data2.csv', index=True)
+    # print(ppfd_df)

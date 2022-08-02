@@ -17,6 +17,10 @@ def draw_scatterplot(df, x='Date', y='DLI'):
 
 if __name__ =="__main__":
     ppfd_df = calculate_ppfd(create_df(4,5,2010,10,17,2010))
-    dli_df = calculate_dli(ppfd_df)
-    dli_df.to_csv('data.csv', index = True)
-    draw_scatterplot(dli_df, x='PAR', y='DLI')
+    # dli_df = calculate_dli(ppfd_df)
+    # dli_df.to_csv('data.csv', index = True)
+    # draw_scatterplot(dli_df, x='PAR', y='DLI')
+
+    # dli_df.to_csv('data.csv', index = True)
+    draw_scatterplot(ppfd_df)
+    draw_scatterplot(ppfd_df, x='Date', y='DLI')
