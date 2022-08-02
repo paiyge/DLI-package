@@ -46,14 +46,13 @@ class Sun_expo:
             while from_date<=to_date:
                 #iterate count up by month
                 from_date += relativedelta(months=1)
-                y=str(from_date.year)
-                m=str(from_date.month-1)
-                year=str(y)
-                month=str(m)
+                year=from_date.strftime("%Y")
+                month=datetime.date(day=1,month=from_date.month-1,year=from_date.year).strftime("%m")
                 try:
                     dfs.append(pd.read_csv('http://pubdata.mlml.calstate.edu/mlml_last/weather/'+year+"-"+month+".csv"))
                 except: #if data is missing pass
                     pass
+
             #converts from_date and to_time back to original.    
             from_date=datetime.datetime(from_y,from_m,from_d)
             to_date=datetime.datetime(to_y,to_m,to_d)
