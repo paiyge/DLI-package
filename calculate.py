@@ -12,6 +12,9 @@ def create_df(from_m:int, from_d:int, from_y:int, to_m:int, to_d:int, to_y:int):
     par_df = df[['pst_time', 'sr_1']].copy()
     par_df = par_df.dropna()
     par_df = par_df.rename(columns={'pst_time': 'DateTime', 'sr_1': 'PAR'})
+
+    par_df.loc[par_df['PAR'] < 0, 'PAR'] = 0
+
     return par_df
 
 
