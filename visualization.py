@@ -6,21 +6,66 @@ from calculate import *
 from plotly.offline import plot
 import plotly.express as px
 
-def draw_scatterplot(df, x='Date', y='DLI'):
-    fig = px.scatter(df, x, y, trendline='ols')
+def draw_scatterplot(ppdfd_df, x='Date', y='DLI'):
+    fig = px.scatter(ppfd_df, x, y)
 
-    fig.update_traces(
-    line=dict(dash="dot", width=4),
-    selector=dict(type="scatter", mode="lines"))
+    # fig = px.scatter(df, x, y, trendline='ols')
+    # fig.update_traces(
+    # line=dict(dash="dot", width=4),
+    # selector=dict(type="scatter", mode="lines"))
 
     plot(fig, auto_open=True)
 
+
+def weekly_dli(ppfd_df):
+    ppfd_df['Week'] = (pd.to_datetime
+                       (ppfd_df['UnixTime'], unit='s').dt.isocalendar().week)
+    ppfd_df['Year'] = (pd.to_datetime
+                       (ppfd_df['UnixTime'], unit='s').dt.year)
+    week_df = pd.DataFrame(ppfd_df.groupby(['Year','Week'])['DLI'].mean())
+    return week_df
+
+
+def monthly_dli(ppfd_df):
+    ppfd_df['Month'] = (pd.to_datetime
+                       (ppfd_df['UnixTime'], unit='s').dt.month)
+    ppfd_df['Year'] = (pd.to_datetime
+                       (ppfd_df['UnixTime'], unit='s').dt.year)
+    month_df = pd.DataFrame(ppfd_df.groupby(['Year','Month'])['DLI'].mean())
+    return month_df
+
+
+def draw_weekbar(ppfd_df):
+    week_df = weekly_dli(ppfd_df)
+    week_df = week_df.reset_index()
+    week_df['Year'] = week_df['Year'].astype(str)
+    fig1 = px.bar(week_df, y='DLI', x='Week', color="Year", barmode='group')
+    plot(fig1, auto_open=True)
+
+def draw_monthbar(ppfd_df):
+    month_df = monthly_dli(ppfd_df)
+    month_df = month_df.reset_index()
+    month_df['Year'] = month_df['Year'].astype(str)
+    fig2 = px.bar(month_df, y='DLI', x='Month', color="Year", barmode='group')
+    plot(fig2, auto_open=True)
+
+
 if __name__ =="__main__":
-    ppfd_df = calculate_ppfd(create_df(4,5,2010,10,17,2010))
-    # dli_df = calculate_dli(ppfd_df)
-    # dli_df.to_csv('data.csv', index = True)
-    # draw_scatterplot(dli_df, x='PAR', y='DLI')
+    ppfd_df = calculate_ppfd(create_df(4,5,2010,5,17,2012))
+    # print(weekly_dli(ppfd_df))
+    # month_df = monthly_dli(ppfd_df)
+    # month_df = month_df.reset_index()
+    # print(month_df)
+    draw_scatterplot(ppfd_df)
+    draw_weekbar(ppfd_df)
+    draw_monthbar(ppfd_df)
+    # ppfd_df.to_csv('data.csv', index = True)
+
+
+
+    # draw_scatterplot(ppfd_df, x='Date', y='DLI')
 
     # dli_df.to_csv('data.csv', index = True)
-    draw_scatterplot(ppfd_df)
-    draw_scatterplot(ppfd_df, x='Date', y='DLI')
+
+    # ppfd_df = calculate_ppfd(create_df(4,5,2010,10,17,2015))
+    # draw_scatterplot(ppfd_df)
