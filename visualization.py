@@ -8,12 +8,6 @@ import plotly.express as px
 
 def draw_scatterplot(ppdfd_df, x='Date', y='DLI'):
     fig = px.scatter(ppfd_df, x, y)
-
-    # fig = px.scatter(df, x, y, trendline='ols')
-    # fig.update_traces(
-    # line=dict(dash="dot", width=4),
-    # selector=dict(type="scatter", mode="lines"))
-
     plot(fig, auto_open=True)
 
 
@@ -51,21 +45,7 @@ def draw_monthbar(ppfd_df):
 
 
 if __name__ =="__main__":
-    ppfd_df = calculate_ppfd(create_df(4,5,2010,5,17,2012))
-    # print(weekly_dli(ppfd_df))
-    # month_df = monthly_dli(ppfd_df)
-    # month_df = month_df.reset_index()
-    # print(month_df)
-    draw_scatterplot(ppfd_df)
+    ppfd_df = calculate_ppfd(create_df(4,5,2010,5,17,2011))
     draw_weekbar(ppfd_df)
+    draw_scatterplot(ppfd_df)
     draw_monthbar(ppfd_df)
-    # ppfd_df.to_csv('data.csv', index = True)
-
-
-
-    # draw_scatterplot(ppfd_df, x='Date', y='DLI')
-
-    # dli_df.to_csv('data.csv', index = True)
-
-    # ppfd_df = calculate_ppfd(create_df(4,5,2010,10,17,2015))
-    # draw_scatterplot(ppfd_df)
