@@ -47,4 +47,4 @@ class Sun_expo:
 
 
 s=Sun_expo()
-s.data_range(4,17,2010,10,17,2010)
+s.data_range(4,5,2010,5,17,2010)
