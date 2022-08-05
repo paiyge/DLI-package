@@ -3,8 +3,32 @@ import datetime
 from dateutil.relativedelta import relativedelta
 
 class Sun_expo:
+    """
+    Pulls data from online source and usses that data to estimate sun exposure.
+    """
 
     def data_range(self, from_m:int, from_d:int, from_y:int, to_m:int, to_d:int, to_y:int):
+        """
+        Pulls data off online csv files based on entered dates.
+        Parameters
+        ----------
+        from_m : int
+            The oldest month to pull.
+        from_d : int
+            The oldest day to pull.
+        from_y : int
+            The oldest month to pull.
+        to_m : int
+            The newest month to pull.
+        to_d : int
+            The newest day to pull.
+        to_y : int
+            The newest year to pull.
+        Returns
+        -------
+        df : Pandas dataframe
+            A dataframe contining data only from within the entered dates.
+        """
 
         #standardizes data time format
         from_date=datetime.date(from_y,from_m,from_d)
@@ -37,6 +61,3 @@ class Sun_expo:
 
             print("Done!")
             return df
-
-s=Sun_expo()
-s.data_range(11,5,2010,2,4,2011)
