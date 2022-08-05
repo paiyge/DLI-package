@@ -9,7 +9,7 @@ class Sun_expo:
         #standardizes data time format
         from_date=datetime.date(from_y,from_m,from_d)
         to_date=datetime.date(to_y,to_m,to_d)
-        
+
         oldest_data=datetime.date(2000,11,1)
         if from_date < oldest_data or to_date > datetime.date.today():
             print("data is only available from ", oldest_data," to present.")
@@ -27,7 +27,7 @@ class Sun_expo:
                 except: #if data is missing pass
                     pass
 
-            #converts from_date and to_time back to original.    
+            #converts from_date and to_time back to original.
             from_date=datetime.datetime(from_y,from_m,from_d)
             to_date=datetime.datetime(to_y,to_m,to_d)
 
@@ -39,8 +39,8 @@ class Sun_expo:
             df=df[(df['pst_time']>=from_date)&(df['pst_time']<=to_date+relativedelta(days=1))]
 
             print("Done!")
-            
+
             pd.DataFrame(df).sort_values(by="pst_time")
             print(df['pst_time'].iloc[0])
             print(df['pst_time'].iloc[-1])
-            return print(df)
+            return df
