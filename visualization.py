@@ -7,14 +7,14 @@ from calculate import *
 from plotly.offline import plot
 import plotly.express as px
 
-def draw_scatterplot(ppdfd_df, x='Date', y='DLI'):
+def draw_scatterplot(dli_df, x='Date', y='DLI'):
     '''
     Draws a scatterplot of DLI vs Date by default.
 
     Parameters
     ----------
     ppdfd_df : pandas DataFrame
-        Data frame containing dates, PAR, and PPFD
+        Data frame containing dates and DLI
     x : pandas Series, optional
         The data for the x-axis of the scatterplot. The default is 'Date'.
     y : pandas Series, optional
@@ -25,19 +25,19 @@ def draw_scatterplot(ppdfd_df, x='Date', y='DLI'):
     None.
 
     '''
-    fig = px.scatter(ppfd_df, x, y)
+    fig = px.scatter(dli_df, x, y)
     plot(fig, auto_open=True)
 
 
-def weekly_dli(ppfd_df):
+def weekly_dli(dli_df):
     '''
     Creates a data frame with the week number and the year as indices and
     the week's average DLI as a column
 
     Parameters
     ----------
-    ppfd_df : pandas DataFrame
-        Data frame containing dates, PAR, and PPFD
+    dli_df : pandas DataFrame
+        Data frame containing dates and DLI. Date is in unix time.
 
     Returns
     -------
@@ -45,24 +45,24 @@ def weekly_dli(ppfd_df):
         Data frame with the week number the year, and the week's average DLI
 
     '''
-    ppfd_df = ppfd_df.copy()
-    ppfd_df['Week'] = (pd.to_datetime
-                       (ppfd_df['UnixTime'], unit='s').dt.isocalendar().week)
-    ppfd_df['Year'] = (pd.to_datetime
-                       (ppfd_df['UnixTime'], unit='s').dt.year)
-    week_df = pd.DataFrame(ppfd_df.groupby(['Year','Week'])['DLI'].mean())
+    dli_df = dli_df.copy()
+    dli_df['Week'] = (pd.to_datetime
+                       (dli_df['UnixTime'], unit='s').dt.isocalendar().week)
+    dli_df['Year'] = (pd.to_datetime
+                       (dli_df['UnixTime'], unit='s').dt.year)
+    week_df = pd.DataFrame(dli_df.groupby(['Year','Week'])['DLI'].mean())
     return week_df
 
 
-def monthly_dli(ppfd_df):
+def monthly_dli(dli_df):
     '''
     Creates a data frame with the month number and the year as indices and
     the month's average DLI as a column
 
     Parameters
     ----------
-    ppfd_df : pandas DataFrame
-        Data frame containing dates, PAR, and PPFD
+    dli_df : pandas DataFrame
+        Data frame containing dates and DLI. Date is in unix time.
 
     Returns
     -------
@@ -71,58 +71,79 @@ def monthly_dli(ppfd_df):
         the month's average DLI as a column
 
     '''
-    ppfd_df = ppfd_df.copy()
-    ppfd_df['Month'] = (pd.to_datetime
-                       (ppfd_df['UnixTime'], unit='s').dt.month)
-    ppfd_df['Year'] = (pd.to_datetime
-                       (ppfd_df['UnixTime'], unit='s').dt.year)
-    month_df = pd.DataFrame(ppfd_df.groupby(['Year','Month'])['DLI'].mean())
+    dli_df = dli_df.copy()
+    dli_df['Month'] = (pd.to_datetime
+                       (dli_df['UnixTime'], unit='s').dt.month)
+    dli_df['Year'] = (pd.to_datetime
+                       (dli_df['UnixTime'], unit='s').dt.year)
+    month_df = pd.DataFrame(dli_df.groupby(['Year','Month'])['DLI'].mean())
     return month_df
 
 
-def draw_weekbar(ppfd_df):
+def draw_weekbar(dli_df):
     '''
     Draws a bar graph of DLI vs the week number
 
     Parameters
     ----------
-    ppfd_df : pandas DataFrame
-        Data frame containing dates, PAR, and PPFD
+    dli_df : pandas DataFrame
+        Data frame containing dates and DLI
 
     Returns
     -------
     None.
 
     '''
-    week_df = weekly_dli(ppfd_df)
+    week_df = weekly_dli(dli_df)
     week_df = week_df.reset_index()
     week_df['Year'] = week_df['Year'].astype(str)
     fig1 = px.bar(week_df, y='DLI', x='Week', color="Year", barmode='group')
     plot(fig1, auto_open=True)
 
-def draw_monthbar(ppfd_df):
+def draw_monthbar(dli_df):
     '''
     Draws a bar graph of DLI vs month
 
     Parameters
     ----------
-    ppfd_df : pandas DataFrame
-        Data frame containing dates, PAR, and PPFD
+    dli_df : pandas DataFrame
+        Data frame containing dates and DLI
 
     Returns
     -------
     None.
 
     '''
-    month_df = monthly_dli(ppfd_df)
+    month_df = monthly_dli(dli_df)
     month_df = month_df.reset_index()
     month_df['Year'] = month_df['Year'].astype(str)
     fig2 = px.bar(month_df, y='DLI', x='Month', color="Year", barmode='group')
     plot(fig2, auto_open=True)
 
+def draw_figures(dli_df):
+    '''
+    Draws a scatterplot of DLI vs Date, a bar graph of DLI vs the week number,
+    and a bar graph of DLI vs month
+
+    Parameters
+    ----------
+    dli_df : pandas DataFrame
+        Data frame containing dates and DLI
+
+    Returns
+    -------
+    None.
+
+    '''
+    draw_scatterplot(dli_df)
+    draw_weekbar(dli_df)
+    draw_monthbar(dli_df)
+
 
 if __name__ =="__main__":
-    ppfd_df = calculate_ppfd(create_df(4,5,2010,5,17,2010))
-    draw_scatterplot(ppfd_df)
-    draw_weekbar(ppfd_df)
-    draw_monthbar(ppfd_df)
+    # dli_df = calculate_dli(create_df(4,5,2010,5,17,2010))
+    # draw_scatterplot(dli_df)
+    # draw_weekbar(dli_df)
+    # draw_monthbar(dli_df)
+    dli_df = create_dli_df(4,5,2010,5,17,2010)
+    draw_figures(dli_df)
