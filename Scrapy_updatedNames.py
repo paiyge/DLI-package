@@ -37,6 +37,3 @@ class Sun_expo:
 
             print("Done!")
             return df
-
-s=Sun_expo()
-s.data_range(11,5,2010,2,4,2011)
