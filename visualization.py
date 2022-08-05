@@ -45,6 +45,7 @@ def weekly_dli(ppfd_df):
         Data frame with the week number the year, and the week's average DLI
 
     '''
+    ppfd_df = ppfd_df.copy()
     ppfd_df['Week'] = (pd.to_datetime
                        (ppfd_df['UnixTime'], unit='s').dt.isocalendar().week)
     ppfd_df['Year'] = (pd.to_datetime
@@ -70,6 +71,7 @@ def monthly_dli(ppfd_df):
         the month's average DLI as a column
 
     '''
+    ppfd_df = ppfd_df.copy()
     ppfd_df['Month'] = (pd.to_datetime
                        (ppfd_df['UnixTime'], unit='s').dt.month)
     ppfd_df['Year'] = (pd.to_datetime
@@ -121,6 +123,6 @@ def draw_monthbar(ppfd_df):
 
 if __name__ =="__main__":
     ppfd_df = calculate_ppfd(create_df(4,5,2010,5,17,2010))
-    draw_weekbar(ppfd_df)
     draw_scatterplot(ppfd_df)
+    draw_weekbar(ppfd_df)
     draw_monthbar(ppfd_df)
