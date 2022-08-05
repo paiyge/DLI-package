@@ -44,7 +44,3 @@ class Sun_expo:
             print(df['pst_time'].iloc[0])
             print(df['pst_time'].iloc[-1])
             return print(df)
-
-
-s=Sun_expo()
-s.data_range(4,17,2010,10,17,2010)
