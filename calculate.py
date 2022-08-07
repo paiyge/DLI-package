@@ -123,13 +123,3 @@ def monthly_dli(dli_df):
     month_df = pd.DataFrame(dli_df.groupby(['Year','Month'])['DLI'].mean())
 
     return month_df
-
-
-if __name__ == "__main__":
-    par_df = create_df(4,5,2010,4,6,2010)
-    print(par_df)
-    # ppfd_df = calculate_ppfd(par_df)
-    # ppfd_df.to_csv('data2.csv', index=True)
-    # print(ppfd_df)
-    # dli_df = calculate_dli(ppfd_df)
-    dli_df1 = create_dli_df(4,5,2010,10,17,2010)
