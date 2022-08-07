@@ -34,6 +34,7 @@ def calculate_ppfd(par_df):
     Calculates PPFD by finding mean of PAR values taken per each day.
     Date column must be labeled 'Date' and in Pandas time format.
     PAR column must be labeled 'PAR'.
+    Calculation assumes time intervals are constant between data points.
     param par_df: dataframe containing PAR values collected by day
     return ppfd_df: dataframe containing dates, PAR, and PPFD
     '''
@@ -108,8 +109,9 @@ def monthly_dli(dli_df):
     '''
     Creates a data frame with the month number and the year as indices and
     the month's average DLI as a column
-    param dli_df : pandas DataFrame, comtains dates and DLI.
-        Date is in UNIX time in seconds, and it's column labeled as 'UnixTime''
+    param dli_df : pandas DataFrame, contains dates and DLI.
+        Date is in UNIX time in seconds, and it's column labeled as 'UnixTime'
+        DLI column is labeled as 'DLI'
     return month_df: pandas DataFrame. comtains the month number and the year
          as indices and the month's average DLI as a column
     '''
