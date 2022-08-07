@@ -1,3 +1,8 @@
+'''
+This module contains functions that generate data frames with PAR, PPFD,
+and/or DLI data.
+'''
+
 import pandas as pd
 from Scrapy_updatedNames import *
 import pipe
@@ -72,7 +77,62 @@ def create_dli_df(from_m:int, from_d:int, from_y:int, to_m:int, to_d:int, to_y:i
     par_df = create_df(from_m, from_d, from_y, to_m, to_d, to_y)
     ppfd_df = calculate_ppfd(par_df)
     dli_df = calculate_dli(ppfd_df)
+
     return dli_df
+
+
+def weekly_dli(dli_df):
+    '''
+    Creates a data frame with the week number and the year as indices and
+    the week's average DLI as a column
+
+    Parameters
+    ----------
+    dli_df : pandas DataFrame
+        Data frame containing dates and DLI. Date is in unix time.
+
+    Returns
+    -------
+    week_df : pandas DataFrame
+        Data frame with the week number the year, and the week's average DLI
+
+    '''
+    dli_df = dli_df.copy()
+    dli_df['Week'] = (pd.to_datetime
+                       (dli_df['UnixTime'], unit='s').dt.isocalendar().week)
+    dli_df['Year'] = (pd.to_datetime
+                       (dli_df['UnixTime'], unit='s').dt.year)
+    week_df = pd.DataFrame(dli_df.groupby(['Year','Week'])['DLI'].mean())
+
+    return week_df
+
+
+def monthly_dli(dli_df):
+    '''
+    Creates a data frame with the month number and the year as indices and
+    the month's average DLI as a column
+
+    Parameters
+    ----------
+    dli_df : pandas DataFrame
+        Data frame containing dates and DLI. Date is in unix time.
+
+    Returns
+    -------
+    month_df : pandas DataFrame
+        Data frame with the month number and the year as indices and
+        the month's average DLI as a column
+
+    '''
+    dli_df = dli_df.copy()
+    dli_df['Month'] = (pd.to_datetime
+                       (dli_df['UnixTime'], unit='s').dt.month)
+    dli_df['Year'] = (pd.to_datetime
+                       (dli_df['UnixTime'], unit='s').dt.year)
+    month_df = pd.DataFrame(dli_df.groupby(['Year','Month'])['DLI'].mean())
+
+    return month_df
+
 
 
 if __name__ == "__main__":
