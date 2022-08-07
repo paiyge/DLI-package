@@ -31,7 +31,9 @@ def create_df(from_m:int, from_d:int, from_y:int, to_m:int, to_d:int, to_y:int):
 
 def calculate_ppfd(par_df):
     '''
-    Calculates PPFD by finding mean of PAR values taken per each day
+    Calculates PPFD by finding mean of PAR values taken per each day.
+    Date column must be labeled 'Date' and in Pandas time format.
+    PAR column must be labeled 'PAR'.
     param par_df: dataframe containing PAR values collected by day
     return ppfd_df: dataframe containing dates, PAR, and PPFD
     '''
@@ -53,7 +55,8 @@ def calculate_ppfd(par_df):
 
 def calculate_dli(ppfd_df):
     '''
-    Calculates DLI from PPFD, the integral duration, and a conversion factor
+    Calculates DLI from PPFD, the integral duration, and a conversion factor.
+    PPFD coumn must be labeled 'PPFD'.
     param ppfd_df: dataframe containing dates, PAR, and PPFD
     return: dataframe with DLI appended
     '''
@@ -84,17 +87,11 @@ def create_dli_df(from_m:int, from_d:int, from_y:int, to_m:int, to_d:int, to_y:i
 def weekly_dli(dli_df):
     '''
     Creates a data frame with the week number and the year as indices and
-    the week's average DLI as a column
-
-    Parameters
-    ----------
-    dli_df : pandas DataFrame
-        Data frame containing dates and DLI. Date is in unix time.
-
-    Returns
-    -------
-    week_df : pandas DataFrame
-        Data frame with the week number the year, and the week's average DLI
+    the week's average DLI as a column.
+    param dli_df : pandas DataFrame, containing dates and DLI.
+        Date is in UNIX time in seconds, and it's column labeled as 'UnixTime'.
+    return week_df: pandas DataFrame, Data frame with the week number the year,
+         and the week's average DLI
 
     '''
     dli_df = dli_df.copy()
@@ -111,18 +108,10 @@ def monthly_dli(dli_df):
     '''
     Creates a data frame with the month number and the year as indices and
     the month's average DLI as a column
-
-    Parameters
-    ----------
-    dli_df : pandas DataFrame
-        Data frame containing dates and DLI. Date is in unix time.
-
-    Returns
-    -------
-    month_df : pandas DataFrame
-        Data frame with the month number and the year as indices and
-        the month's average DLI as a column
-
+    param dli_df : pandas DataFrame, comtains dates and DLI.
+        Date is in UNIX time in seconds, and it's column labeled as 'UnixTime''
+    return month_df: pandas DataFrame. comtains the month number and the year
+         as indices and the month's average DLI as a column
     '''
     dli_df = dli_df.copy()
     dli_df['Month'] = (pd.to_datetime
@@ -134,10 +123,9 @@ def monthly_dli(dli_df):
     return month_df
 
 
-
 if __name__ == "__main__":
-    # par_df = create_df(4,5,2010,10,17,2010)
-    # print(par_df)
+    par_df = create_df(4,5,2010,4,6,2010)
+    print(par_df)
     # ppfd_df = calculate_ppfd(par_df)
     # ppfd_df.to_csv('data2.csv', index=True)
     # print(ppfd_df)

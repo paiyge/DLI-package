@@ -37,17 +37,37 @@ def test_data_range():
     # Returns: request the user enter dates from 11/2000 forward.
     print(s.data_range(5,15,1910,10,17,1920))
 
+
 def test_create_df():
     # data frame should contain only date and PAR data from 10Nov2010 to
     # 17Feb2011
     print(create_df(4,5,2010,2,17,2011))
 
+
 def test_calculate_ppfd():
-    df1 = pd.DataFrame(data={'DateTime':[2011-4-5, 2011-4-5], 'PAR':[10, 20]})
+    # Expected: one row with PPFD=15 and Date incorrect.
+    df1 = pd.DataFrame(data={'DateTime':[2010-1-24, 2012-1-25], 'PAR':[10, 20]})
     print(calculate_ppfd(df1))
 
+    # Expected: Two rows with correct Dates and PPFD = 20 & 30
+    df2 = pd.DataFrame(data={'DateTime':[pd.Timestamp('2010-01-24 23:55:01'),
+                                         pd.Timestamp('2010-01-25 23:56:01')],
+                             'PAR':[20,30]})
+    print(calculate_ppfd(df2))
+
+    # Expected: One with correct Dates and PPFD = 25
+    df3 = pd.DataFrame(data={'DateTime':[pd.Timestamp('2010-01-24 23:55:01'),
+                                         pd.Timestamp('2010-01-24 23:56:01')],
+                             'PAR':[20,30]})
+    print(calculate_ppfd(df3))
+
+    # Expected: KeyError since column name is 'Date' instead of 'DateTime'
+    df4 = pd.DataFrame(data={'Date':[pd.Timestamp('2010-01-24 23:55:01'),
+                                         pd.Timestamp('2010-01-24 23:56:01')],
+                             'PAR':[20,30]})
+    pytest.raises(KeyError, calculate_ppfd, df4)
 
 if __name__ == '__main__':
-    test_data_range()
+    # test_data_range()
     # test_create_df()
-    # test_calculate_ppfd()
+    test_calculate_ppfd()
