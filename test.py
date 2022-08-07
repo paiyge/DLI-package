@@ -4,7 +4,6 @@ This file contains the unit tests for this package.
 from Scrapy_updatedNames import Sun_expo
 from calculate import *
 from visualization import *
-import numpy
 import pytest
 s = Sun_expo()
 
@@ -148,6 +147,27 @@ def test_monthly_dli():
     pytest.raises(KeyError, monthly_dli, df3)
 
 
+def test_draw_scatterplot():
+    '''
+    tests the draw_scatterplot() function in visualization.py
+    '''
+    # Expected: ValueError since arguments were not specified and
+    # default arguments (x='Date', y='DLI') were columns od df1
+    df1 = pd.DataFrame(data={'a':[0,1,2], 'b':[4,5,6]})
+    pytest.raises(ValueError, draw_scatterplot, df1)
+
+    # Expected: creates a scatterplot in default web browser with
+    # 'a' as x-axis and 'b' as y-axis
+    df2 = pd.DataFrame(data={'a':[0,1,2], 'b':[4,5,6]})
+    draw_scatterplot(df2, 'a', 'b')
+
+    # Expected: creates a scatterplot in default web browser with
+    # 'Date' as x-axis and 'DLI' as y-axis
+    df2 = pd.DataFrame(data={'Date':[0,1,2], 'DLI':[4,5,6]})
+    draw_scatterplot(df2)
+
+
+
 if __name__ == '__main__':
     # test_data_range()
     # test_create_df()
@@ -155,4 +175,5 @@ if __name__ == '__main__':
     # test_calculate_dli()
     # test_create_dli_df()
     # test_weekly_dli()
-    test_monthly_dli()
+    # test_monthly_dli()
+    test_draw_scatterplot()
