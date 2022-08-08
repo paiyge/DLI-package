@@ -12,35 +12,28 @@ def test_data_range():
     tests the data_range() method of the Sun_expo class in
     Scrapy_updatedNames.py
     '''
-    # EXAMPLE 1:
-    # correct usage: can process over numerous months and years.
-    # Returns: a pandas data frame in the terminal.
+
+    # Expected: data frame
     print(s.data_range(11,10,2010,2,17,2011))
 
-    # EXAMPLE 2:
-    # incorrect usage: The user has entered a string where they need an integer.
-    # Returns: The Datetime package will return ValueError, telling the user to enter an integer.
+    # Expected: ValueError, telling the user to enter an integer.
+    # Since the user has entered a string where they need an integer.
     pytest.raises(TypeError,s.data_range,"June",5,2010,10,17,2010)
 
-    # EXAMPLE 3:
-    # tollerable usage: The user has ented a 2 digit year.
-    # Returns: The Datetime package will autocorrect this to 2010 and will still sucessfully return data.
+    # Expected: ValueError
+    # Since the user has ented a 2 digit year.
     print(s.data_range(4,5,10,10,17,10))
 
-    # EXAMPLE 4:
-    # incorrect ussage: The user had ented a day outside the usual 31 days
-    # of the month.
-    # Returns: The datetime package will inform the user that the entered value is outside range.
+    # Expected: ValueError
+    # Since the user had ented a day outside the usual 31 days of the month.
     pytest.raises(ValueError,s.data_range,4,50,2010,10,17,2010)
 
-    # EXAMPLE 5:
-    # incorrect ussage: The user forgot to enter a value.
-    # Returns: error missing value.
+    # Expected: ValueError
+    # Since the user forgot to enter a value.
     pytest.raises(TypeError,s.data_range,5,2010,10,17,2010)
 
-    # EXAMPLE 6:
-    # correct usage: Here the user is calling data that is not available.
-    # Returns: request the user enter dates from 11/2000 forward.
+    # Expected: Request the user enter dates from 11/2000 forward.
+    # Since the user is calling data that is not available.
     print(s.data_range(5,15,1910,10,17,1920))
 
 
