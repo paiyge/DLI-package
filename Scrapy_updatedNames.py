@@ -1,10 +1,14 @@
+"""
+This module contains the Sun_expo class, which pulls data from online source
+ and uses that data to estimate sun exposure.
+"""
 import pandas as pd
 import datetime
 from dateutil.relativedelta import relativedelta
 
 class Sun_expo:
     """
-    Pulls data from online source and usses that data to estimate sun exposure.
+    Pulls data from online source and uses that data to estimate sun exposure.
     """
 
     def data_range(self, from_m:int, from_d:int, from_y:int, to_m:int, to_d:int, to_y:int):
@@ -61,6 +65,3 @@ class Sun_expo:
 
             print("Done!")
             return df
-
-# s=Sun_expo()
-# s.data_range(11,5,2010,2,4,2011)

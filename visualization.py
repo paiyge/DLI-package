@@ -1,5 +1,5 @@
 """
-Contains functions that create the graphs of DLI vs Date
+This module contains functions that create the graphs of DLI vs Date
 """
 
 from calculate import *
@@ -30,7 +30,7 @@ def draw_weekbar(dli_df):
     fig1 = px.bar(week_df, y='DLI', x='Week', color="Year", barmode='group')
     plot(fig1, auto_open=True)
 
-    
+
 def draw_monthbar(dli_df):
     '''
     Draws a bar graph of DLI vs month
@@ -53,12 +53,3 @@ def draw_figures(dli_df):
     draw_scatterplot(dli_df)
     draw_weekbar(dli_df)
     draw_monthbar(dli_df)
-
-
-if __name__ =="__main__":
-    # dli_df = calculate_dli(create_df(4,5,2010,5,17,2010))
-    # draw_scatterplot(dli_df)
-    # draw_weekbar(dli_df)
-    # draw_monthbar(dli_df)
-    dli_df = create_dli_df(4,5,2010,10,17,2015)
-    draw_figures(dli_df)

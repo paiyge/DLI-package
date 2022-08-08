@@ -1,5 +1,5 @@
 '''
-This file contains the unit tests for this package.
+This module contains the unit tests for this package.
 '''
 from Scrapy_updatedNames import Sun_expo
 from calculate import *
@@ -20,7 +20,7 @@ def test_data_range():
     # Since the user has entered a string where they need an integer.
     pytest.raises(TypeError,s.data_range,"June",5,2010,10,17,2010)
 
-    # Expected: ValueError
+    # Expected: Request the user enter dates from 11/2000 forward.
     # Since the user has ented a 2 digit year.
     print(s.data_range(4,5,10,10,17,10))
 
@@ -106,7 +106,7 @@ def test_weekly_dli():
                             'DLI':[0,1]})
     pytest.raises(ValueError, weekly_dli, df1)
 
-    # Expected: one row with Week=31 and DLI=0.5
+    # Expected: data frame with one row with Week=31 and DLI=0.5
     # Dates inputted are 02Aug2022 and 03Aug2022 in UNIX time in seconds
     df2 = pd.DataFrame(data={'UnixTime':[1659412800, 1659499200],
                             'DLI':[0,1]})
@@ -128,7 +128,7 @@ def test_monthly_dli():
                             'DLI':[0,1]})
     pytest.raises(ValueError, monthly_dli, df1)
 
-    # Expected: one row with Month=8 and DLI=0.5
+    # Expected: data frame with one row with Month=8 and DLI=0.5
     # Dates inputted are 02Aug2022 and 03Aug2022 in UNIX time in seconds
     df2 = pd.DataFrame(data={'UnixTime':[1659412800, 1659499200],
                             'DLI':[0,1]})
@@ -145,7 +145,7 @@ def test_draw_scatterplot():
     tests the draw_scatterplot() function in visualization.py
     '''
     # Expected: ValueError since arguments were not specified and
-    # default arguments (x='Date', y='DLI') were columns od df1
+    # default arguments (x='Date', y='DLI') were not columns of df1
     df1 = pd.DataFrame(data={'a':[0,1,2], 'b':[4,5,6]})
     pytest.raises(ValueError, draw_scatterplot, df1)
 
@@ -160,13 +160,58 @@ def test_draw_scatterplot():
     draw_scatterplot(df2)
 
 
+def test_draw_weekbar():
+    '''
+    tests the draw_weekbar() function in visualization.py
+    '''
+    # Expected: ValueError
+    # since the inputted UNIX time is in milliseconds, instead of seconds
+    df1 = pd.DataFrame(data={'UnixTime':[1659412800000, 1659499200000],
+                            'DLI':[0,1]})
+    pytest.raises(ValueError, draw_weekbar, df1)
+
+    # Expected: creates a bar graph with one bar with Week=31 and DLI=0.5
+    # Dates inputted are 02Aug2022 and 03Aug2022 in UNIX time in seconds
+    df2 = pd.DataFrame(data={'UnixTime':[1659412800, 1659499200],
+                            'DLI':[0,1]})
+    draw_weekbar(df2)
+
+    # Expected: KeyError since column name should be 'UnixTime', not 'Time'
+    df3 = pd.DataFrame(data={'Time':[1659412800, 1659499200],
+                            'DLI':[0,1]})
+    pytest.raises(KeyError, draw_weekbar, df3)
+
+
+def test_draw_monthbar():
+    '''
+    tests the draw_monthbar() function in visualization.py
+    '''
+    # Expected: ValueError
+    # since the inputted UNIX time is in milliseconds, instead of seconds
+    df1 = pd.DataFrame(data={'UnixTime':[1659412800000, 1659499200000],
+                            'DLI':[0,1]})
+    pytest.raises(ValueError, draw_monthbar, df1)
+
+    # Expected: creates a bar graph with one bar with Month=8 and DLI=0.5
+    # Dates inputted are 02Aug2022 and 03Aug2022 in UNIX time in seconds
+    df2 = pd.DataFrame(data={'UnixTime':[1659412800, 1659499200],
+                            'DLI':[0,1]})
+    draw_monthbar(df2)
+
+    # Expected: KeyError since column name should be 'UnixTime', not 'Time'
+    df3 = pd.DataFrame(data={'Time':[1659412800, 1659499200],
+                            'DLI':[0,1]})
+    pytest.raises(KeyError, draw_monthbar, df3)
+
 
 if __name__ == '__main__':
-    # test_data_range()
-    # test_create_df()
-    # test_calculate_ppfd()
-    # test_calculate_dli()
-    # test_create_dli_df()
-    # test_weekly_dli()
-    # test_monthly_dli()
+    test_data_range()
+    test_create_df()
+    test_calculate_ppfd()
+    test_calculate_dli()
+    test_create_dli_df()
+    test_weekly_dli()
+    test_monthly_dli()
     test_draw_scatterplot()
+    test_draw_weekbar()
+    test_draw_monthbar()
