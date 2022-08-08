@@ -19,10 +19,10 @@ DLI: https://en.wikipedia.org/wiki/Daily_light_integral
 ### Organization
 
 - \_\_init\_\_.py : Initialization script
-- scrape.py : scrapes PAR data from site and formats 
+- scrapy_updatedNames.py : scrapes PAR data from site and formats 
 - calculate.py : computes subcalculations to go from raw PAR to DLI
-- visualize.py: creates plots of DLI by day by day, month, and year
-- test.py : tests scrape.py
+- visualization.py: creates plots of DLI by day, week, and month
+- test.py : tests scrapy_updatedNames.py, calculate.py, and visualization.py
 
 
 ### Usage Examples
