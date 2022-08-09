@@ -17,7 +17,7 @@ DLI: https://en.wikipedia.org/wiki/Daily_light_integral
 - example.py : example code of intended use of the package
 
 ### External Libraries/Packages
-The following libaries/packages are required and need to installed for this package to function.
+The following libaries/packages are required and need to be installed for this package to function.
 - Numpy
 - Pandas
 - Pipe
