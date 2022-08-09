@@ -10,6 +10,11 @@ class Sun_expo:
     """
     Pulls data from online source and uses that data to estimate sun exposure.
     """
+    def __init__(self):
+        """
+        
+        """
+        pass
 
     def data_range(self, from_m:int, from_d:int, from_y:int, to_m:int, to_d:int, to_y:int):
         """
